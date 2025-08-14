@@ -1,0 +1,128 @@
+import matplotlib.pyplot as plt
+import numpy as np
+import pickle
+
+
+from senpy.utils.misc import get_logger, timer
+from .dea_multiprocessing import DeaMultiprocessing
+from .dea_largescale import DeaLargeScale
+
+class DeaProfile():    
+    """
+    Senpy class for DEA (Data Envelopment Analyses)
+
+    """
+ 
+    def __init__(self, THREAD_N = 8 ):
+                
+        self._logger = get_logger(self.__class__.__name__)
+        self.THREAD_N = THREAD_N
+        self.DEALS = DeaLargeScale(THREAD_N = self.THREAD_N)
+        
+    @timer
+    def get_base(self, X, Y,  q_type ="x", steps = 10, size = 100):
+        
+        base = self.DEALS.get_base(X, Y, q_type =q_type, steps = steps, size = size)
+        self.DEALS.save_me(X, Y, base, file_out = "dea.pkl")
+        
+    @timer
+    def get_yx_profile(self, x, y ):
+        
+        print(x.shape)
+        # Create an array with multiples of x from 0.1 to 2.0
+        m = np.arange(0.1, 10.1, 0.1)
+        xP = x * m[:, np.newaxis]
+        yP = y * m[:, np.newaxis]
+        
+        xP = xP.T
+        yP = yP.T
+                
+        X, Y, base = self.DEALS.load_me(file_dea = "dea.pkl")
+        
+        self.DEALS.set_DEA(X[:, base], Y[:, base], q_type = "x")
+        
+        qY = self.DEALS.DEAM.run(xP, yP , q_type = "y")
+        qY = np.array(qY)
+        qY[qY > 1e+10] = 0
+        
+        print(qY)
+        
+        y = qY * m
+        
+        mask = (y != 0)
+        m_filtered = m[mask]
+        y_filtered = y[mask]
+
+        # Include the point (0, y0) at the beginning
+        m_filtered = np.concatenate(([m_filtered[0] ], m_filtered))
+        y_filtered = np.concatenate(([0], y_filtered))
+        
+        # Plotting
+        plt.plot(m_filtered, y_filtered)
+        plt.xlabel('x')
+        plt.ylabel('y')
+        plt.scatter([1], [1], color='red', marker='o', label='agent') 
+        plt.title('Production function')
+        plt.legend()
+        plt.grid(True)
+        plt.ylim(bottom=0, top=np.max(y_filtered)+0.5)
+        plt.savefig('plot_yx.png')
+        plt.clf()
+
+
+        
+    @timer
+    def get_xx_profile(self, x, y , i,j):
+        
+        # Generate a series of arrays with x[1] incremented by k
+        k_values = np.arange(0, 10)
+        xPi = np.column_stack([x.copy() for _ in k_values])
+        xPi[i, :] += k_values* xPi[i, 0]*0.5
+        
+        xPj = np.column_stack([x.copy() for _ in k_values])
+        xPj[j, :] += k_values* xPi[j, 0]*0.5
+
+        yP  = np.column_stack([y.copy() for _ in k_values])
+                
+        X, Y, base = self.DEALS.load_me(file_dea = "dea.pkl")
+        
+        self.DEALS.set_DEA(X[:, base], Y[:, base], q_type = "x")
+        
+        qXi = self.DEALS.DEAM.run(xPi, yP , q_type = "x")
+        qXi = np.array(qXi)
+        qXi[qXi > 1e+10] = 0
+        
+        qXj = self.DEALS.DEAM.run(xPj, yP , q_type = "x")
+        qXj = np.array(qXj)
+        qXj[qXj > 1e+10] = 0
+        
+        qxPi = xPi*qXi
+        
+        y_axes_i = qxPi[i, :]
+        x_axes_i = qxPi[j, :]
+        
+        qxPj = xPj*qXj
+
+        y_axes_j = qxPj[i, :]
+        x_axes_j = qxPj[j, :]
+       
+        y_axes = np.concatenate((y_axes_i, y_axes_j[::-1]))
+        x_axes = np.concatenate((x_axes_i, x_axes_j[::-1]))
+        
+        # Plotting
+        plt.plot(x_axes, y_axes)
+        plt.xlabel(f'x{j}')
+        plt.ylabel(f'x{i}')
+        plt.scatter(  xPj[j, 0], xPj[i, 0],  color='red', marker='o', label='agent') 
+        plt.title('Slice of Production function')
+        plt.legend()
+        plt.grid(True)
+        plt.ylim(bottom=0, top=np.max(y_axes)+0.5)
+        plt.savefig('plot_xx.png')
+        plt.clf()    
+
+
+
+
+
+    

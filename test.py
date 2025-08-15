@@ -96,10 +96,10 @@ def run_dea_comparison(m, fX_k, fY_k):
 
 # Example of how to call the function:
 execution_time_all = []
-m = 100
+m = 1000
 fX_k = 5
 fY_k = 3
-for k in range(1, 5):
+for k in range(1, 4):
     
     print(f"Running DEA comparison for m={m}, fX_k={fX_k}, fY_k={fY_k}")
     

@@ -111,7 +111,7 @@ for k in range(1, 3):
         execution_time_all.append([f"m={m}, fX_k={fX_k}, fY_k={fY_k}",etime])
     m *=2
 
-for [setsize, execution_time] in execution_time_all.items():
+for [setsize, execution_time] in execution_time_all:
     for key, value in execution_time.items():
         print(f"{setsize} {key}: {value:.4f} seconds")
 

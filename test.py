@@ -66,7 +66,7 @@ def run_dea_comparison(m, fX_k, fY_k):
     execution_time = {}
     print(f"Running DEA comparison with m={m}, fX_k={fX_k}, fY_k={fY_k}")
     # Run DeaMultiprocessing
-    DEAMP = DeaMultiprocessing(THREAD_N=8)
+    DEAMP = DeaMultiprocessing()
     DEAMP.set_DEA(X, Y, q_type="x")
 
     start_time = timeit.default_timer()
@@ -78,7 +78,7 @@ def run_dea_comparison(m, fX_k, fY_k):
     qX1 = np.array(qX1)
 
     # Run DeaLargeScale
-    DEALS = DeaLargeScale(THREAD_N=8)
+    DEALS = DeaLargeScale()
     start_time = timeit.default_timer()
     qX2 = DEALS.run(X, Y, q_type="x", steps=5, size=100)
     elapsed_time = timeit.default_timer() - start_time
@@ -99,7 +99,7 @@ execution_time_all = []
 m = 100
 fX_k = 5
 fY_k = 3
-for k in range(1, 6):
+for k in range(1, 5):
     
     print(f"Running DEA comparison for m={m}, fX_k={fX_k}, fY_k={fY_k}")
     
@@ -107,7 +107,7 @@ for k in range(1, 6):
         etime = run_dea_comparison(m=m, fX_k=5, fY_k=3)
         execution_time_all.append([f"m={m}, fX_k={fX_k}, fY_k={fY_k}",etime])
     else:  # Run the DeaLargeScale
-        etime[f"m={m}, fX_k={fX_k}, fY_k={fY_k}"] = run_dea_largescale(m=m, fX_k=5, fY_k=3)
+        etime = run_dea_largescale(m=m, fX_k=5, fY_k=3)
         execution_time_all.append([f"m={m}, fX_k={fX_k}, fY_k={fY_k}",etime])
     m *=2
 

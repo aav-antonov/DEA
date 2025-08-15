@@ -4,6 +4,9 @@ import pickle
 
 from libDEA.dea_multiprocessing import DeaMultiprocessing
 from libDEA.utils import timer
+import os
+
+
 
 
 class DeaLargeScale():    
@@ -13,6 +16,8 @@ class DeaLargeScale():
     """
  
     def __init__(self, THREAD_N = 8 ):
+
+        
                 
         self.THREAD_N = THREAD_N
         self.DEAM = DeaMultiprocessing(THREAD_N = self.THREAD_N)

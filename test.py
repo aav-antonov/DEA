@@ -74,7 +74,7 @@ def run_dea_comparison(m, fX_k, fY_k):
     Y = np.load(fileY)
 
     execution_time = {}
-
+    print(f"Running DEA comparison with m={m}, fX_k={fX_k}, fY_k={fY_k}")
     # Run DeaMultiprocessing
     DEAMP = DeaMultiprocessing(THREAD_N=8)
     DEAMP.set_DEA(X, Y, q_type="x")
@@ -105,7 +105,7 @@ def run_dea_comparison(m, fX_k, fY_k):
     return execution_time
 
 # Example of how to call the function:
-execution_time = run_dea_comparison(m=100, fX_k=5, fY_k=3)
+execution_time = run_dea_comparison(m=200, fX_k=5, fY_k=3)
 for key, value in execution_time.items():
     print(f"{key}: {value:.4f} seconds")
 

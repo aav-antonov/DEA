@@ -55,7 +55,7 @@ class DeaLargeScale():
     @timer
     def run(self,X, Y, q_type ="x", steps = 10, size = 100):
     
-        full_base = self.get_base(self,X, Y, q_type =q_type, steps = steps, size = size)
+        full_base = self.get_base(X, Y, q_type =q_type, steps = steps, size = size)
         
         qX = self.get_scores(full_base, X, Y, q_type =q_type)
         

@@ -32,7 +32,7 @@ class DeaMultiprocessing():
                 
         self.THREAD_N = THREAD_N 
 
-    @timer
+    
     def set_DEA(self,X, Y, q_type ="x"):
         self.dea = Dea(X, Y)
         

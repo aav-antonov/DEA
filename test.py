@@ -39,9 +39,20 @@ Y = np.load(fileY)
 ############################
 DEAMP = DeaMultiprocessing(THREAD_N = 8)
 DEAMP.set_DEA(X, Y, q_type ="x")
-qX = DEAMP.run(X, Y, q_type ="x")
-qX = np.array(qX)
-print(qX.shape)
+qX1 = DEAMP.run(X, Y, q_type ="x")
+qX1 = np.array(qX1)
+print(qX1.shape)
+
+DEALS = DeaLargeScale(THREAD_N = 8)
+qX2 = DEALS.run(X, Y, q_type ="x",steps = 5, size = 100)
+qX2 = np.array(qX2)
+
+print(qX2.shape)
+
+
+assert np.allclose(qX1, qX2, atol=1e-8), "Results from DeaMultiprocessing and DeaLargeScale do not match!"
+
+print
 exit()
 
 DEAProfile = DeaProfile(THREAD_N = 8)

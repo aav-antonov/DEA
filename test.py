@@ -95,7 +95,7 @@ def run_dea_comparison(m, fX_k, fY_k):
     return execution_time
 
 # Example of how to call the function:
-execution_time = {}
+execution_time_all = []
 m = 100
 fX_k = 5
 fY_k = 3
@@ -104,13 +104,16 @@ for k in range(1, 3):
     print(f"Running DEA comparison for m={m}, fX_k={fX_k}, fY_k={fY_k}")
     
     if k < 3:   # Run the DEA comparison
-        execution_time[f"m={m}, fX_k={fX_k}, fY_k={fY_k}"] = run_dea_comparison(m=m, fX_k=5, fY_k=3)
+        etime = run_dea_comparison(m=m, fX_k=5, fY_k=3)
+        execution_time_all.append([f"m={m}, fX_k={fX_k}, fY_k={fY_k}",etime])
     else:  # Run the DeaLargeScale
-        execution_time[f"m={m}, fX_k={fX_k}, fY_k={fY_k}"] = run_dea_largescale(m=m, fX_k=5, fY_k=3)
+        etime[f"m={m}, fX_k={fX_k}, fY_k={fY_k}"] = run_dea_largescale(m=m, fX_k=5, fY_k=3)
+        execution_time_all.append([f"m={m}, fX_k={fX_k}, fY_k={fY_k}",etime])
     m *=2
 
-for key, value in execution_time.items():
-    print(f"{key}: {value:.4f} seconds")
+for [setsize, execution_time] in execution_time_all.items():
+    for key, value in execution_time.items():
+        print(f"{setsize} {key}: {value:.4f} seconds")
 
 exit()
 

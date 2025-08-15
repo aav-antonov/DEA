@@ -21,11 +21,11 @@ class DeaLargeScale():
     @timer
     def get_base(self,X, Y, q_type ="x", steps = 10, size = 100):
         
-        self._logger.info(f"THREAD_N: {self.THREAD_N}, X: {X.shape}, Y: {Y.shape}")
+        print(f"DeaLargeScale() get_base THREAD_N: {self.THREAD_N}, X: {X.shape}, Y: {Y.shape}")
         
-        init_base_columns = self.init_base(X, Y, q_type ="x", steps = steps, size = size)
+        init_base_columns = self.init_base(X, Y, q_type =q_type, steps = steps, size = size)
         
-        full_base_columns = self.full_base( init_base_columns, X, Y, q_type ="x")
+        full_base_columns = self.full_base( init_base_columns, X, Y, q_type = q_type)
         
         return full_base_columns
     
@@ -55,9 +55,9 @@ class DeaLargeScale():
     @timer
     def run(self,X, Y, q_type ="x", steps = 10, size = 100):
     
-        full_base = self.get_base(self,X, Y, q_type ="x", steps = steps, size = size)
+        full_base = self.get_base(self,X, Y, q_type =q_type, steps = steps, size = size)
         
-        qX = self.get_scores(full_base, X, Y, q_type ="x")
+        qX = self.get_scores(full_base, X, Y, q_type =q_type)
         
         self.check_full_base(full_base, qX)
         

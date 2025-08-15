@@ -105,7 +105,7 @@ def run_dea_comparison(m, fX_k, fY_k):
     return execution_time
 
 # Example of how to call the function:
-execution_time = run_dea_comparison(m=10000, fX_k=5, fY_k=3)
+execution_time = run_dea_comparison(m=100, fX_k=5, fY_k=3)
 for key, value in execution_time.items():
     print(f"{key}: {value:.4f} seconds")
 

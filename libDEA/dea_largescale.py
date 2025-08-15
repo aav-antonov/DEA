@@ -14,7 +14,6 @@ class DeaLargeScale():
  
     def __init__(self, THREAD_N = 8 ):
                 
-        self._logger = get_logger(self.__class__.__name__)
         self.THREAD_N = THREAD_N
         self.DEAM = DeaMultiprocessing(THREAD_N = self.THREAD_N)
 

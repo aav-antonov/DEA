@@ -99,7 +99,7 @@ execution_time_all = []
 m = 100
 fX_k = 5
 fY_k = 3
-for k in range(1, 3):
+for k in range(1, 6):
     
     print(f"Running DEA comparison for m={m}, fX_k={fX_k}, fY_k={fY_k}")
     

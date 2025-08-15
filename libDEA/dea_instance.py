@@ -1,28 +1,22 @@
 from ortools.linear_solver import pywraplp
 import numpy as np
 
-from senpy.utils.misc import get_logger, timer
-
-
-
 class Dea():
     
     """
-    Senpy class for DEA (Data Envelopment Analyses)
+    Class for DEA (Data Envelopment Analyses)
     
     fX numpy array 
     fY numpy array 
 
     """
  
-    def __init__(self, fX, fY ):
+    def __init__(self, fX, fY):
                 
-        self._logger = get_logger(self.__class__.__name__)
-        
         self.check_input(fX, "fX")
         self.check_input(fY, "fY")
         
-        self.fY = fY
+        self.fY = fY 
         self.fX = fX
 
         if fX.shape[1] !=  fY.shape[1]:

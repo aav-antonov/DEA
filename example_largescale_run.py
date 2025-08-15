@@ -1,5 +1,6 @@
 
 import numpy as np
+import os
 
 from libDEA.dea_multiprocessing import DeaMultiprocessing
 from libDEA.dea_largescale import DeaLargeScale
@@ -7,6 +8,10 @@ from libDEA.dea_profile import DeaProfile
 ##############################################    
 #Example()
 def generateXY(m,fX_k,fY_k, fileX, fileY):
+
+    # Ensure the folder exists
+    os.makedirs(os.path.dirname(fileX), exist_ok=True)
+    os.makedirs(os.path.dirname(fileY), exist_ok=True)
     
     X = np.random.uniform(0, 10, size=(fX_k, m))
     Y = np.random.uniform(0, 10, size=(fY_k, m))
@@ -19,19 +24,25 @@ def generateXY(m,fX_k,fY_k, fileX, fileY):
     
     
 ##############################################  
-m = 10000
+m = 100
 fX_k = 5
 fY_k = 3
 
 fileX = f'mydata/X{m}_{fX_k}_{fY_k}.npy'
 fileY = f'mydata/Y{m}_{fX_k}_{fY_k}.npy'
 
-#X,Y = generateXY(m,fX_k,fY_k, fileX, fileY)
+X,Y = generateXY(m,fX_k,fY_k, fileX, fileY)
 
 X = np.load(fileX)
 Y = np.load(fileY)
 
-
+############################
+DEAMP = DeaMultiprocessing(THREAD_N = 8)
+DEAMP.set_DEA(X, Y, q_type ="x")
+qX = DEAMP.run(X, Y, q_type ="x")
+qX = np.array(qX)
+print(qX.shape)
+exit()
 
 DEAProfile = DeaProfile(THREAD_N = 8)
 

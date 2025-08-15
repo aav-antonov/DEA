@@ -3,7 +3,7 @@ import numpy as np
 import pickle
 
 
-from senpy.utils.misc import get_logger, timer
+
 from .dea_multiprocessing import DeaMultiprocessing
 from .dea_largescale import DeaLargeScale
 
@@ -15,17 +15,17 @@ class DeaProfile():
  
     def __init__(self, THREAD_N = 8 ):
                 
-        self._logger = get_logger(self.__class__.__name__)
+       
         self.THREAD_N = THREAD_N
         self.DEALS = DeaLargeScale(THREAD_N = self.THREAD_N)
         
-    @timer
+    
     def get_base(self, X, Y,  q_type ="x", steps = 10, size = 100):
         
         base = self.DEALS.get_base(X, Y, q_type =q_type, steps = steps, size = size)
         self.DEALS.save_me(X, Y, base, file_out = "dea.pkl")
         
-    @timer
+    
     def get_yx_profile(self, x, y ):
         
         print(x.shape)
@@ -71,9 +71,9 @@ class DeaProfile():
 
 
         
-    @timer
+    
     def get_xx_profile(self, x, y , i,j):
-        
+        self._logger = g
         # Generate a series of arrays with x[1] incremented by k
         k_values = np.arange(0, 10)
         xPi = np.column_stack([x.copy() for _ in k_values])

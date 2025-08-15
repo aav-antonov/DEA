@@ -1,11 +1,10 @@
-#from ortools.linear_solver import pywraplp
+
 import numpy as np
 from multiprocessing import Pool
 
 
-from senpy.utils.misc import get_logger, timer
-
-from .dea_instance import Dea
+from libDEA.utils import  timer
+from libDEA.dea_instance import Dea
 
   
     
@@ -31,7 +30,6 @@ class DeaMultiprocessing():
  
     def __init__(self, THREAD_N = 8 ):
                 
-        self._logger = get_logger(self.__class__.__name__)
         self.THREAD_N = THREAD_N 
 
     @timer
@@ -42,8 +40,6 @@ class DeaMultiprocessing():
     @timer
     def run(self,X, Y, q_type ="x"):
     
-        self._logger.info(f"THREAD_N: {self.THREAD_N}, X: {X.shape}, Y: {Y.shape}")
-        
         X_partitions = np.array_split(X, self.THREAD_N, axis=1)
         Y_partitions = np.array_split(Y, self.THREAD_N, axis=1)
 

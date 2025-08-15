@@ -10,6 +10,6 @@ setup(
         "ortools",
     ],
     python_requires=">=3.7",
-    author="Your Name",
+    author="aav-antonov",
     description="A DEA library",
 )

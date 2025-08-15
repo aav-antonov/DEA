@@ -2,10 +2,8 @@
 import numpy as np
 import pickle
 
-from senpy.utils.misc import get_logger, timer
-from .dea_multiprocessing import DeaMultiprocessing
-
-           
+from libDEA.dea_multiprocessing import DeaMultiprocessing
+from libDEA.utils import timer
 
 
 class DeaLargeScale():    

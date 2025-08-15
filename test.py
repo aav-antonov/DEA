@@ -52,31 +52,11 @@ print(qX2.shape)
 
 assert np.allclose(qX1, qX2, atol=1e-8), "Results from DeaMultiprocessing and DeaLargeScale do not match!"
 
-print
-exit()
+print("Both methods returned the same results.")
 
-DEAProfile = DeaProfile(THREAD_N = 8)
+print(qX1[:10])
+print(qX2[:10])
 
-#DEAProfile.get_base(X, Y,  q_type ="x", steps = 10, size = 100)
-
-DEAProfile.get_xx_profile(X[:,1296], Y[:,1296],2,0)
-
-DEAProfile.get_yx_profile( X[:,1596], Y[:,1596])
-
-exit()
-
-DEALS = DeaLargeScale(THREAD_N = 8)
-qX = DEALS.run(X, Y, q_type ="x",steps = 5, size = 100)
-
-exit()
-
-DEAMP = DeaMultiprocessing(THREAD_N = 8)
-DEAMP.set_DEA(X, Y, q_type ="x")
-qX = DEAMP.run(X, Y, q_type ="x")
-qX = np.array(qX)
-print(qX.shape)
-# [END program]
-exit()
 
 
     

@@ -8,7 +8,7 @@ from libDEA.dea_instance import Dea
 
   
     
-@timer
+
 def get_efficiency_for_list(dea, X, Y, type):
     q = []
     for i in range(X.shape[1]):  # Iterate through the rows of X (or Y)

@@ -116,8 +116,8 @@ class DeaLargeScale():
     @timer
     def addbase(self, base_columns, q_columns, X, Y, q_type ="x"):
     
-        self._logger.info(f"BASE X_base: {X[:, base_columns].shape}")
-        self._logger.info(f"Q X_q: {X[:, q_columns].shape}")
+        print(f"addbase:: BASE X_base: {X[:, base_columns].shape}")
+        print(f"addbase:: Q X_q: {X[:, q_columns].shape}")
         
         self.set_DEA(X[:, base_columns], Y[:, base_columns], q_type = q_type)
       

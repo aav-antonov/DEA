@@ -76,7 +76,7 @@ class DeaLargeScale():
          
         full_base_columns = self.rebase(np.where(np.array(qX) >= 0.99)[0] , X,Y,q_type ="x")
         
-        self._logger.info(f"full_base_columns!!!! {full_base_columns.shape}")
+        print(f"full_base:: full_base_columns!!!! {full_base_columns.shape}")
         
         return full_base_columns
     

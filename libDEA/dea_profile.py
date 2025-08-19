@@ -70,7 +70,7 @@ class DeaProfile():
         
     
     def get_xx_profile(self, x, y , i,j):
-        self._logger = g
+        
         # Generate a series of arrays with x[1] incremented by k
         k_values = np.arange(0, 10)
         xPi = np.column_stack([x.copy() for _ in k_values])

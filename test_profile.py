@@ -57,6 +57,8 @@ DP = DeaProfile()
 
 qX2 = DP.DEALS.run(X, Y, q_type="x", steps=5, size=20)
 print(qX2)
+x, y = X[:,0], Y[:,0]
+DP.get_yx_profile( x, y )
 
 # Example usage:
 # X, Y = generate_base_XY(fX_k=3, fY_k=2, scale_range=range(1,11), N=1, bias=0.0)

@@ -55,7 +55,7 @@ X, Y = generate_base_XY(3, 2, range(1,11), 5, bias=1.0)
 DP = DeaProfile()
 #DP.get_base(X, Y,  q_type ="x", steps = 10, size = 100)
 
-qX2 = DP.DEALS.run(X, Y, q_type="x", steps=5, size=100)
+qX2 = DP.DEALS.run(X, Y, q_type="x", steps=5, size=20)
 print(qX2)
 
 # Example usage:

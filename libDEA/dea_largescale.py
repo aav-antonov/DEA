@@ -23,7 +23,7 @@ class DeaLargeScale():
         self.DEAM = DeaMultiprocessing(THREAD_N = self.THREAD_N)
 
         
-    @timer
+    #@timer
     def get_base(self,X, Y, q_type ="x", steps = 10, size = 100):
         
         print(f"DeaLargeScale() get_base THREAD_N: {self.THREAD_N}, X: {X.shape}, Y: {Y.shape}")
@@ -34,7 +34,7 @@ class DeaLargeScale():
         
         return full_base_columns
     
-    @timer
+    #@timer
     def save_me(self,X, Y, full_base_columns, file_out = "dea.pkl"):
      
         # Create a dictionary to store your data
@@ -44,7 +44,7 @@ class DeaLargeScale():
         with open(file_out, 'wb') as f:
             pickle.dump(data_dict, f)
 
-    @timer
+    #@timer
     def load_me(self, file_dea = "dea.pkl"):
         
         # Load the data back
@@ -57,7 +57,7 @@ class DeaLargeScale():
 
         return X, Y, base
 
-    @timer
+    #@timer
     def run(self,X, Y, q_type ="x", steps = 10, size = 100):
     
         full_base = self.get_base(X, Y, q_type =q_type, steps = steps, size = size)
@@ -68,12 +68,12 @@ class DeaLargeScale():
         
         return qX
     
-    @timer
+    #@timer
     def set_DEA(self,X, Y, q_type ="x"):
         self.DEAM.set_DEA(X, Y, q_type =q_type)
 
         
-    @timer
+    #@timer
     def full_base(self, base_columns, X, Y, q_type ="x"):
             
         self.set_DEA(X[:, base_columns], Y[:, base_columns], q_type = q_type)
@@ -85,7 +85,7 @@ class DeaLargeScale():
         
         return full_base_columns
     
-    @timer
+    #@timer
     def get_scores(self, base_columns, X, Y, q_type ="x"):
         
         self.set_DEA(X[:, base_columns], Y[:, base_columns], q_type = q_type)
@@ -94,7 +94,7 @@ class DeaLargeScale():
          
         return qX
 
-    @timer
+    #@timer
     def check_full_base(self, base_columns, qX):
 
         base_columns_new = np.where(np.array(qX) >= 0.99)[0]
@@ -106,7 +106,7 @@ class DeaLargeScale():
             exit()
     
     
-    @timer
+    #@timer
     def rebase(self, base_columns, X, Y, q_type ="x"):
         
         print("rebase in:", type(base_columns))
@@ -118,7 +118,7 @@ class DeaLargeScale():
         return base_columns
    
 
-    @timer
+    #@timer
     def addbase(self, base_columns, q_columns, X, Y, q_type ="x"):
     
         print(f"addbase:: BASE X_base: {X[:, base_columns].shape}")
@@ -133,7 +133,7 @@ class DeaLargeScale():
         return base_columns
         
         
-    @timer
+    #@timer
     def init_base_check(self, unique_columns, base_columns, X, Y, q_type ="x"):
         
         base_columns_new = self.addbase(base_columns,np.array(list(unique_columns)), X,Y,q_type ="x")
@@ -144,7 +144,7 @@ class DeaLargeScale():
             print("ERROR: init_base_check FAILED")
             exit()
             
-    @timer
+    #@timer
     def init_base(self,X, Y, q_type ="x", steps = 10, size = 100):
         
         unique_columns = set()

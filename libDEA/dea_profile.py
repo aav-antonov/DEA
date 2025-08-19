@@ -13,11 +13,8 @@ class DeaProfile():
 
     """
  
-    def __init__(self, THREAD_N = 8 ):
-                
-       
-        self.THREAD_N = THREAD_N
-        self.DEALS = DeaLargeScale(THREAD_N = self.THREAD_N)
+    def __init__(self):
+        self.DEALS = DeaLargeScale()
         
     
     def get_base(self, X, Y,  q_type ="x", steps = 10, size = 100):

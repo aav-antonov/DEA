@@ -53,7 +53,7 @@ def generate_base_XY(fX_k, fY_k, scale_range, N, bias=0.0):
 X, Y = generate_base_XY(3, 2, range(1,11), 5, bias=1.0)
 
 DP = DeaProfile()
-DP.get_base(X, Y,  q_type ="x", steps = 10, size = 100)
+DP.get_base(X, Y,  q_type ="x", steps = 10, size = 20)
 
 qX2 = DP.DEALS.run(X, Y, q_type="x", steps=5, size=20)
 print(qX2)

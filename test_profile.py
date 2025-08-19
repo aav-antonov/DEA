@@ -25,7 +25,7 @@ def generate_base_XY(fX_k, fY_k, scale_range, N, bias=0.0):
     
     xy_sum =[]
     for scale_i in scale_range:
-        xy_sum.append([bias + scale_i, bias + np.sqrt(scale_i)])
+        xy_sum.append([bias + scale_i, np.sqrt(scale_i)])
         
 
         
@@ -50,14 +50,14 @@ def generate_base_XY(fX_k, fY_k, scale_range, N, bias=0.0):
     Y = np.column_stack(Y_list)
     return X, Y
     
-X, Y = generate_base_XY(3, 2, range(1,11), 5, bias=1.0)
+X, Y = generate_base_XY(3, 2, range(1,11), 500, bias=2.0)
 
 DP = DeaProfile()
-DP.get_base(X, Y,  q_type ="x", steps = 10, size = 20)
+DP.get_base(X, Y,  q_type ="x", steps = 10, size = 100)
 
-qX2 = DP.DEALS.run(X, Y, q_type="x", steps=5, size=20)
+qX2 = DP.DEALS.run(X, Y, q_type="x", steps=5, size=100)
 print(qX2)
-x, y = X[:,0], Y[:,0]
+x, y = X[:,5], Y[:,5]*0.75
 DP.get_yx_profile( x, y )
 
 # Example usage:

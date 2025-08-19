@@ -19,9 +19,9 @@ class DeaProfile():
     
     def get_base(self, X, Y,  q_type ="x", steps = 10, size = 100):
         
-        base = self.DEALS.get_base(X, Y, q_type =q_type, steps = steps, size = size)
-        self.DEALS.save_me(X, Y, base, file_out = "dea.pkl")
-        
+        self.base = self.DEALS.get_base(X, Y, q_type =q_type, steps = steps, size = size)
+        self.X = X
+        self.Y = Y
     
     def get_yx_profile(self, x, y ):
         
@@ -34,9 +34,9 @@ class DeaProfile():
         xP = xP.T
         yP = yP.T
                 
-        X, Y, base = self.DEALS.load_me(file_dea = "dea.pkl")
         
-        self.DEALS.set_DEA(X[:, base], Y[:, base], q_type = "x")
+        
+        self.DEALS.set_DEA(self.X[:, self.base], self.Y[:, self.base], q_type = "x")
         
         qY = self.DEALS.DEAM.run(xP, yP , q_type = "y")
         qY = np.array(qY)

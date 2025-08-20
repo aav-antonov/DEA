@@ -81,9 +81,7 @@ class DeaProfile():
 
         yP  = np.column_stack([y.copy() for _ in k_values])
                 
-        X, Y, base = self.DEALS.load_me(file_dea = "dea.pkl")
-        
-        self.DEALS.set_DEA(X[:, base], Y[:, base], q_type = "x")
+        self.DEALS.set_DEA(self.X[:, self.base], self.Y[:, self.base], q_type = "x")
         
         qXi = self.DEALS.DEAM.run(xPi, yP , q_type = "x")
         qXi = np.array(qXi)
@@ -115,7 +113,7 @@ class DeaProfile():
         plt.legend()
         plt.grid(True)
         plt.ylim(bottom=0, top=np.max(y_axes)+0.5)
-        plt.savefig('plot_xx.png')
+        plt.savefig(f'plot_xx_{i}_{j}.png')
         plt.clf()    
 
 

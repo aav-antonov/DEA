@@ -109,20 +109,20 @@ class DeaLargeScale():
     #@timer
     def rebase(self, base_columns, X, Y, q_type ="x"):
         
-        print("rebase in:", type(base_columns))
+        #print("rebase in:", type(base_columns))
         
         self.set_DEA(X[:, base_columns], Y[:, base_columns], q_type = q_type)
         qX = self.DEAM.run(X[:, base_columns], Y[:, base_columns] , q_type = q_type)
         base_columns = base_columns[np.where( np.array(qX) >= 0.99)]
-        print("rebase out:", type(base_columns))
+        #print("rebase out:", type(base_columns))
         return base_columns
    
 
     #@timer
     def addbase(self, base_columns, q_columns, X, Y, q_type ="x"):
     
-        print(f"addbase:: BASE X_base: {X[:, base_columns].shape}")
-        print(f"addbase:: Q X_q: {X[:, q_columns].shape}")
+        #print(f"addbase:: BASE X_base: {X[:, base_columns].shape}")
+        #print(f"addbase:: Q X_q: {X[:, q_columns].shape}")
         
         self.set_DEA(X[:, base_columns], Y[:, base_columns], q_type = q_type)
       

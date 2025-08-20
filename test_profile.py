@@ -55,8 +55,6 @@ X, Y = generate_base_XY(3, 2, range(1,11), 50, bias=2.0)
 DP = DeaProfile()
 DP.get_base(X, Y,  q_type ="x", steps = 10, size = 100)
 
-
-print(qX2)
 x, y = X[:,5], Y[:,5]*0.75
 DP.get_yx_profile( x, y )
 

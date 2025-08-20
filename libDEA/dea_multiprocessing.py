@@ -44,7 +44,7 @@ class DeaMultiprocessing():
         self.dea = Dea(X, Y)
         
   
-    @timer
+    #@timer
     def run(self,X, Y, q_type ="x"):
     
         X_partitions = np.array_split(X, self.THREAD_N, axis=1)

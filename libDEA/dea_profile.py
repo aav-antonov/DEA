@@ -41,9 +41,7 @@ class DeaProfile():
         qY = self.DEALS.DEAM.run(xP, yP , q_type = "y")
         qY = np.array(qY)
         qY[qY > 1e+10] = 0
-        
-        print(qY)
-        
+                        
         y = qY * m
         
         mask = (y != 0)
@@ -105,7 +103,16 @@ class DeaProfile():
         x_axes = np.concatenate((x_axes_i, x_axes_j[::-1]))
         
         # Plotting
-        plt.plot(x_axes, y_axes)
+        #plt.plot(x_axes, y_axes)
+        plt.plot(x_axes_i, y_axes_i, label='Slice 1')
+        plt.plot(x_axes_j[::-1], y_axes_j[::-1], label='Slice 2')
+
+        min_x_i = np.min(x_axes_i)
+        max_x_j = np.max(x_axes_j)
+
+        # Draw a line from (min_x_i, max_x_j) to (min_x_i, max_x_j + 1)
+        plt.plot([min_x_i, min_x_i], [max_x_j, max_x_j + 1], color='green', linewidth=2, label='Edge')
+        
         plt.xlabel(f'x{j}')
         plt.ylabel(f'x{i}')
         plt.scatter(  xPj[j, 0], xPj[i, 0],  color='red', marker='o', label='agent') 

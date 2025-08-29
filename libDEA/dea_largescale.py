@@ -4,6 +4,7 @@ import pickle
 
 from libDEA.dea_multiprocessing import DeaMultiprocessing
 from libDEA.utils import timer
+from libDEA.select_base_by_rations import SelectBaseCandidates
 import os
 
 
@@ -176,5 +177,14 @@ class DeaLargeScale():
         
         all_columns = np.arange(n)
         return all_columns
+    
+    def init_by_ratios(self,X, Y, q_type ="x", intervals=10):
+        SBC = SelectBaseCandidates(X, Y, intervals=10)
+       
+        base_columns = self.rebase( SBC.base_indexes, X, Y, q_type ="x")
+        q_columns = range(X.shape[0])
+        base_columns = self.addbase(base_columns, q_columns, X, Y, q_type ="x")
+        base_columns = self.rebase( SBC.base_indexes, X, Y, q_type ="x")
 
+    
     

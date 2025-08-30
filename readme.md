@@ -1,12 +1,36 @@
-**DeaLargeScale: Mathematical Method Description**
+**Data Envelopment Analysis (DEA)**
 
-***Data Envelopment Analysis (DEA):***
-DEA evaluates the relative efficiency of a set of decision-making units (DMUs) by analyzing their input/output combinations. Each DMU is represented by a vector of inputs $X$ and outputs $Y$.
+DEA evaluates the relative efficiency of a set of decision-making units (DMUs) by analyzing their input/output combinations. Each DMU is represented by a vector of inputs $x$ and outputs $y$. For multiple DMUs, inputs and outputs are organized into matrices $X$ and $Y$.
 
-Steps in DeaLargeScale
+The classical input-oriented DEA efficiency score for a DMU $o$ (where $o = 1, \ldots, n$) is computed by solving the following linear program:
+
+$$
+\begin{align*}
+\text{Minimize}\quad & \theta \\\\
+\text{Subject to}\quad
+    & \sum_{j=1}^n \lambda_j x_{ij} \leq \theta x_{io},\quad \forall i = 1, \ldots, m \\\\
+    & \sum_{j=1}^n \lambda_j y_{rj} \geq y_{ro},\quad \forall r = 1, \ldots, s \\\\
+    & \lambda_j \geq 0, \quad \forall j = 1, \ldots, n
+\end{align*}
+$$
+
+where:
+
+- $x_{ij}$: the $i$-th input for DMU $j$,
+- $y_{rj}$: the $r$-th output for DMU $j$,
+- $m$: number of input variables,
+- $s$: number of output variables,
+- $n$: number of DMUs,
+- $\lambda_j$: weights for constructing a reference DMU,
+- $\theta$: efficiency score for DMU $o$ ($\theta \leq 1$; $\theta = 1$ means efficient).
+
+The solution $\theta^*$ is the efficiency of DMU $o$. A DMU is considered efficient if $\theta^* = 1$, and inefficient if $\theta^* < 1$ compared to the rest of the dataset.
+
+**Steps in DeaLargeScale**
+
 Base Candidate Selection via Ratios
 
-Calculate efficiency-related ratios for each column (DMU) of the input/output matrices $X$, $Y$.
+Calculate efficiency-related ratios for each column (DMU) of the 
 Use a partitioning (intervals) heuristic, such as quantiles of these ratios, to select candidate base columns.
 Let the indices of these candidates be $C_0 \subseteq {1, \ldots, n}$.
 Base Refinement (Rebase)

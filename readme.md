@@ -6,7 +6,7 @@ The classical input-oriented DEA efficiency score for a DMU $o$ (where $o = 1, \
 
 $$
 \begin{align*}
-\text{Minimize}\quad & \theta \\\\
+\text{Minimize}\quad & \theta_o \\\\
 \text{Subject to}\quad
     & \sum_{j=1}^n \lambda_j x_{ij} \leq \theta x_{io},\quad \forall i = 1, \ldots, m \\\\
     & \sum_{j=1}^n \lambda_j y_{rj} \geq y_{ro},\quad \forall r = 1, \ldots, s \\\\
@@ -24,7 +24,16 @@ where:
 - $\lambda_j$: weights for constructing a reference DMU,
 - $\theta_o$: efficiency score for DMU $o$ ($\theta \leq 1$; $\theta = 1$ means efficient).
 
-The solution $\theta_o$ is the efficiency of DMU $o$. A DMU is considered efficient if $\theta_o = 1$, and inefficient if $\theta_o_ < 1$ compared to the rest of the dataset.
+The solution $\theta_o$ is the efficiency of DMU $o$. A DMU is considered efficient if $\theta_o = 1$, and inefficient if $\theta_o < 1$ compared to the rest of the dataset.
+
+Complexety of the problem
+Given matrices $X$ and $Y$ the above formulated linear problem must be solved for each DMU, and the time required to do this scales faster then quadratic (somewhere between quadratic and cubic), because more DMUs also increase size of matrices $X$ and $Y$ and time to solve each individual linear problem (so the number of linear prolems increases and size of each problem increases). Given that solving DEA instances (computing efficiency for each DMU) for cases > 1000 even for moderate size of input $x$ and outputs $y$ like 5 and 3 lead to hours of computations even using parralel code on several CPU cores.
+
+**Complexity of the Problem**
+
+Given input and output matrices $X$ and $Y$, the above linear program must be solved separately for each DMU. The computational cost of solving these problems grows super-quadratically with the number of DMUs ($n$), because both the number of linear programs and the size of each program (determined by the number of DMUs and variables) increase as $n$ increases. Specifically, the size of each individual linear program grows with $n$ (the number of DMUs appears in both constraints and variables), so total computational effort increases faster than $O(n^2)$—often approaching cubic complexity for large datasets.
+
+As a result, evaluating DEA efficiency for datasets with more than 1,000 DMUs, even with a moderate number of inputs (e.g., $m = 5$) and outputs (e.g., $s = 3$), can require hours of computation—even when using parallel processing on multiple CPU cores.
 
 **Steps in DeaLargeScale**
 

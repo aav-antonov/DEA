@@ -27,6 +27,29 @@ class DeaLargeScale():
                 
         self.THREAD_N = THREAD_N
         self.DEAM = DeaMultiprocessing(THREAD_N = self.THREAD_N)
+
+    def run(self, X, Y, q_type ="x", intervals=5):
+        
+        self.X, self.Y = X, Y
+        
+        #Compute candidates for the base columns using ratios 
+        SBC = SelectBaseCandidates(X, Y, intervals=intervals)
+        
+        #Compute the base columns by removing non-efficient ones
+        base_columns = self.rebase( np.array(SBC.base_indexes), X, Y, q_type =q_type)
+        q_columns_np = np.array(list(set(range(X.shape[1])) - set(base_columns)))
+        
+        #Extend the base columns by finding efficient ones in q_columns
+        base_columns = self.addbase(base_columns, q_columns_np , X, Y, q_type =q_type)
+        
+        #Final compute of the base columns by removing non-efficient ones
+        self.full_base = self.rebase( base_columns, X, Y, q_type ="x")
+        
+        #Final compute scores for all columns 
+        qX = self.get_scores(self.full_base, X, Y, q_type ="x")
+
+        return qX
+
     
     def save_me(self, file_out = "dea.pkl"):
      
@@ -81,27 +104,6 @@ class DeaLargeScale():
         return base_columns
     
     
-    def run(self, X, Y, q_type ="x", intervals=5):
-        
-        self.X, self.Y = X, Y
-        
-        #Compute candidates for the base columns using ratios 
-        SBC = SelectBaseCandidates(X, Y, intervals=intervals)
-        
-        #Compute the base columns by removing non-efficient ones
-        base_columns = self.rebase( np.array(SBC.base_indexes), X, Y, q_type =q_type)
-        q_columns_np = np.array(list(set(range(X.shape[1])) - set(base_columns)))
-        
-        #Extend the base columns by finding efficient ones in q_columns
-        base_columns = self.addbase(base_columns, q_columns_np , X, Y, q_type =q_type)
-        
-        #Final compute of the base columns by removing non-efficient ones
-        self.full_base = self.rebase( base_columns, X, Y, q_type ="x")
-        
-        #Final compute scores for all columns 
-        qX = self.get_scores(self.full_base, X, Y, q_type ="x")
-
-        return qX
 
     
 

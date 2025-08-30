@@ -22,9 +22,9 @@ where:
 - $s$: number of output variables,
 - $n$: number of DMUs,
 - $\lambda_j$: weights for constructing a reference DMU,
-- $\theta$: efficiency score for DMU $o$ ($\theta \leq 1$; $\theta = 1$ means efficient).
+- $\theta_o$: efficiency score for DMU $o$ ($\theta \leq 1$; $\theta = 1$ means efficient).
 
-The solution $\theta^*$ is the efficiency of DMU $o$. A DMU is considered efficient if $\theta^* = 1$, and inefficient if $\theta^* < 1$ compared to the rest of the dataset.
+The solution $\theta_o$ is the efficiency of DMU $o$. A DMU is considered efficient if $\theta_o = 1$, and inefficient if $\theta_o_ < 1$ compared to the rest of the dataset.
 
 **Steps in DeaLargeScale**
 

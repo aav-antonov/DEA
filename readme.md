@@ -31,3 +31,7 @@ where ( \lambda_j ) are the weights for constructing a "reference" DMU.
 
 Summary:
 DeaLargeScale efficiently prunes the set of DMUs to a base set of highly efficient candidates using ratio-based selection, iterative refinement, and extension. The final DEA efficiency scores for all DMUs are then calculated with respect to this optimized reference set, yielding a faster and scalable analysis for large datasets.
+
+
+**The Cauchy-Schwarz Inequality**\
+$$\left( \sum_{k=1}^n a_k b_k \right)^2 \leq \left( \sum_{k=1}^n a_k^2 \right) \left( \sum_{k=1}^n b_k^2 \right)$$

@@ -24,20 +24,20 @@ def get_efficiency_for_list(dea, X, Y, type):
     
 class DeaMultiprocessing():    
     """
-    Senpy class for DEA (Data Envelopment Analyses)
+    Class for DEA (Data Envelopment Analyses)
 
     """
  
     def __init__(self, THREAD_N = None ):
         if THREAD_N is None:
             num_cores = os.cpu_count()
-            print(f"Detected CPU cores: {num_cores}")
+            print(f"DeaMultiprocessing()::Detected CPU cores: {num_cores}")
             THREAD_N = num_cores
         else:
             num_cores = THREAD_N
                 
         self.THREAD_N = THREAD_N 
-        print(f"DeaMultiprocessing() CPU cores: {self.THREAD_N}")
+        
 
     
     def set_DEA(self,X, Y, q_type ="x"):

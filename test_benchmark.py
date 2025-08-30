@@ -36,17 +36,15 @@ def run_dea_largescale(m, fX_k, fY_k):
     Y = np.load(fileY)
 
     execution_time = {}
-    print(f"Running DeaLargeScale with m={m}, fX_k={fX_k}, fY_k={fY_k}")
-
-    
+        
     # Run DeaLargeScale
-    DEALS = DeaLargeScale(THREAD_N=8)
+    DEALS = DeaLargeScale()
     start_time = timeit.default_timer()
     qX2 = DEALS.run(X, Y, q_type="x")
     elapsed_time = timeit.default_timer() - start_time
     execution_time['DeaLargeScale'] = elapsed_time
 
-    print(f"DeaLargeScale elapsed time: {elapsed_time:.4f} seconds")
+    
     qX2 = np.array(qX2)
 
     
@@ -121,6 +119,7 @@ for k in range(1, 7):
     else:  # Run the DeaLargeScale
         etime = run_dea_largescale(m=m, fX_k=5, fY_k=3)
         execution_time_all.append([f"m={m}, fX_k={fX_k}, fY_k={fY_k}",etime])
+        print(f"DeaLargeScale elapsed time: {etime:.4f} seconds")
     m *=2
 
 for [setsize, execution_time] in execution_time_all:

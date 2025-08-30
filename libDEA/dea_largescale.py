@@ -12,7 +12,7 @@ import os
 
 class DeaLargeScale():    
     """
-    Senpy class for DEA (Data Envelopment Analyses)
+    Class for DEA (Data Envelopment Analyses)
 
     """
  
@@ -20,7 +20,7 @@ class DeaLargeScale():
 
         if THREAD_N is None:
             num_cores = os.cpu_count()
-            print(f"Detected CPU cores: {num_cores}")
+            print(f"DeaLargeScale()::Detected CPU cores: {num_cores}")
             THREAD_N = num_cores
         else:
             num_cores = THREAD_N

@@ -9,7 +9,7 @@ from .dea_largescale import DeaLargeScale
 
 class DeaProfile():    
     """
-    Senpy class for DEA (Data Envelopment Analyses)
+    Class for DEA (Data Envelopment Analyses)
 
     """
  

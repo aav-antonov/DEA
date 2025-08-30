@@ -41,23 +41,21 @@ A standard way to reduce computational time in DEA is to exploit the fact that t
 
 **Steps in DeaLargeScale**
 
-***Base Candidate Selection via Ratios***
-Calculate efficiency-related ratios for each column (DMU) and select pleminary candidates.
-Let denote candidate set to be $B_0$.
+***Base Candidate Selection via Ratios***  
+Calculate efficiency-related ratios for each column (DMU) and select preliminary candidates.  
+Let the candidate set be denoted as $B_0$.
 
-***Base Extension (Addbase)***
-For candidates in $B_0$, solve the DEA model (e.g., linear programming) for each DMU in  matrixes $X$ and $Y$ (using as reference matrixes $X[B_0]$ and $Y[B_0]$ ) and retain those DMUs whose computed efficiency scores are greater than or equal to a 1:  
-Let denote candidate set to be  $B_1$
+***Base Extension (Addbase)***  
+For each DMU in $B_0$, solve the DEA model (e.g., linear programming) using the reference sets $X[B_0]$ and $Y[B_0]$. Retain those DMUs whose computed efficiency scores are greater than or equal to $1$.  
+Let this refined set be denoted as $B_1$.
 
-***Base Refinement (Rebase)***
-For each DMU in $B_1$ solve DEA using as reference $X[B_1]$ and $Y[B_1]$ and retain only efficient (set $B_2$). At this stage set $B_2$ should have complete subset of  efficient  DMU from original matrices $X$ and $Y$. This step is just to remove ineffient DMUs from $B_1$ set. 
+***Base Refinement (Rebase)***  
+For each DMU in $B_1$, solve DEA using $X[B_1]$ and $Y[B_1]$ as reference sets, and retain only the efficient DMUs, yielding set $B_2$. At this stage, $B_2$ should contain the complete subset of efficient DMUs from the original $X$ and $Y$. This step ensures removal of any inefficient DMUs from $B_1$.
 
-***Final Compute*** 
-For each DMU in  matrixes $X$ and $Y$ (using as reference matrixes $X[B_2]$ and $Y[B_2]$). We still solve ($n$) linear problems (the total number of DMUs) but the size of problems itselfs is significantly reduced.
-
-
+***Final Compute***  
+For each DMU in the original matrices $X$ and $Y$, solve DEA using the reference sets $X[B_2]$ and $Y[B_2]$. Thus, we still solve $n$ linear programs (one per DMU), but the size of each problem is significantly reduced compared to using the full set.
 
 
 
-**The Cauchy-Schwarz Inequality**\
-$$\left( \sum_{k=1}^n a_k b_k \right)^2 \leq \left( \sum_{k=1}^n a_k^2 \right) \left( \sum_{k=1}^n b_k^2 \right)$$
+
+

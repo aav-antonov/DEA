@@ -1,6 +1,6 @@
 **Data Envelopment Analysis (DEA)**
 
-DEA evaluates the relative efficiency of a set of decision-making units (DMUs) by analyzing their input/output combinations. Each DMU is represented by a vector of inputs $x$ and outputs $y$. For multiple DMUs, inputs and outputs are organized into matrices $X$ and $Y$. See more details in my PhD related paper [Open DEA.pdf](DEA.pdf) 
+DEA evaluates the relative efficiency of a set of decision-making units (DMUs) by analyzing their input/output combinations. Each DMU is represented by a vector of inputs $x$ and outputs $y$. For multiple DMUs, inputs and outputs are organized into matrices $X$ and $Y$. See more details in my PhD related paper [DEA.pdf](DEA.pdf) 
 
 The classical input-oriented DEA efficiency score for a DMU $o$ (where $o = 1, \ldots, n$) is computed by solving the following linear program:
 
@@ -26,8 +26,7 @@ where:
 
 The solution $\theta_o$ is the efficiency of DMU $o$. A DMU is considered efficient if $\theta_o = 1$, and inefficient if $\theta_o < 1$ compared to the rest of the dataset.
 
-Complexety of the problem
-Given matrices $X$ and $Y$ the above formulated linear problem must be solved for each DMU, and the time required to do this scales faster then quadratic (somewhere between quadratic and cubic), because more DMUs also increase size of matrices $X$ and $Y$ and time to solve each individual linear problem (so the number of linear prolems increases and size of each problem increases). Given that solving DEA instances (computing efficiency for each DMU) for cases > 1000 even for moderate size of input $x$ and outputs $y$ like 5 and 3 lead to hours of computations even using parralel code on several CPU cores.
+
 
 **Complexity of the Problem**
 

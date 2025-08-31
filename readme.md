@@ -1,6 +1,69 @@
+# Data Envelopment Analysis ([DEA](DEA.pdf)) Computational Library 
+
+This repository provides a Python library for applying Data Envelopment Analysis (DEA) to real-world data. It includes several classes to compute various tasks related to DEA:
+
+1. **`Dea()`**  
+   _File:_ `libDEA/dea_instance.py`  
+   Solves a standard single DEA instance.
+
+2. **`DeaMultiprocessing()`**  
+   _File:_ `libDEA/dea_multiprocessing.py`  
+   Solves multiple DEA instances in parallel using multiprocessing.
+
+3. **`DeaLargeScale()`**  
+   _File:_ `libDEA/dea_largescale.py`  
+   Optimizes performance for large-scale cases.
+
+4. **`DeaProfile()`**  
+   _File:_ `libDEA/dea_profile.py`  
+   Visualizes the efficiency surface.
+
+The package uses the linear solver from the [`ortools`](https://developers.google.com/optimization) library. It is free to use, provided you comply with the terms and conditions of `ortools`.
+
+For more details, see my PhD-related paper: [DEA.pdf](DEA.pdf)
+
+
+**Installation**
+```
+git clone --branch  main https://github.com/aav-antonov/DEA.git
+cd DEA
+pip install . e
+```
+
+
+**Test**
+
+In the `DEA` folder, you can benchmark and test the performance and correctness of the two DEA implementations by running:
+
+python test_benchmark.py
+
+This script benchmarks and tests both accuracy and computational efficiency for:
+
+- **DeaMultiprocessing:** Base method that computes efficiency for each unit directly using multiprocessing.
+- **DeaLargeScale:** Optimized version designed for large-scale data and improved performance.
+
+Random datasets of varying sizes are generated. Both methods are executed, results are compared for accuracy, and computation time is measured.
+
+**All tests were run on a machine with 4 CPU cores.**
+
+### Execution Time Summary
+
+| m    | fX_k | fY_k | DeaMultiprocessing (s) | DeaLargeScale (s) |
+|------|------|------|------------------------|-------------------|
+| 250  | 5    | 3    | 5.6306                 | 5.8992            |
+| 500  | 5    | 3    | 21.8980                | 14.5271           |
+| 1000 | 5    | 3    | 86.2211                | 37.7303           |
+| 2000 | 5    | 3    | 351.1777                 | 105.9509          |
+| 4000 | 5    | 3    | 1500.0*                | 240.7928          |
+| 8000 | 5    | 3    | 6200.0*                | 607.6985          |
+
+- \* Extrapolated values for DeaMultiprocessing (based on observed scaling from smaller dataset runs).
+  
+
+
 **Data Envelopment Analysis (DEA)**
 
-DEA evaluates the relative efficiency of a set of decision-making units (DMUs) by analyzing their input/output combinations. Each DMU is represented by a vector of inputs $x$ and outputs $y$. For multiple DMUs, inputs and outputs are organized into matrices $X$ and $Y$. See more details in my PhD related paper [DEA.pdf](DEA.pdf) 
+DEA evaluates the relative efficiency of a set of decision-making units (DMUs) by analyzing their input/output combinations. Each DMU is represented by a vector of inputs $x$ and outputs $y$. For multiple DMUs, inputs and outputs are organized into matrices $X$ and $Y$. 
 
 The classical input-oriented DEA efficiency score for a DMU $o$ (where $o = 1, \ldots, n$) is computed by solving the following linear program:
 
@@ -30,7 +93,7 @@ The solution $\theta_o$ is the efficiency of DMU $o$. A DMU is considered effici
 
 **Complexity of the Problem**
 
-Given input and output matrices $X$ and $Y$, the above linear program must be solved separately for each DMU. The computational cost of solving these problems grows super-quadratically with the number of DMUs ($n$), because both the number of linear programs and the size of each program (determined by the number of DMUs and variables) increase as $n$ increases. Specifically, the size of each individual linear program grows with $n$ (the number of DMUs appears in both constraints and variables), so total computational effort increases faster than $O(n^2)$—often approaching cubic complexity for large datasets.
+Given input and output matrices $X$ and $Y$, the above linear program must be solved separately for each DMU. The computational time required to solve these problems commonly grows super-quadratically with the number of DMUs ($n$), because both the number of linear programs and the size of each program (determined by the number of DMUs and variables) increase as $n$ increases. Specifically, the size of each individual linear program grows with $n$ (the number of DMUs appears in both constraints and variables), so the total computational time in average case increases faster than $O(n^2)$—often approaching cubic growth for large datasets.
 
 As a result, evaluating DEA efficiency for datasets with more than 1,000 DMUs, even with a moderate number of inputs (e.g., $m = 5$) and outputs (e.g., $s = 3$), can require hours of computation—even when using parallel processing on multiple CPU cores.
 

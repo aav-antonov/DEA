@@ -95,11 +95,14 @@ class DeaProfile():
         y_axes_j = qxPj[i, :]
         x_axes_j = qxPj[j, :]
        
-        y_axes = np.concatenate((y_axes_i, y_axes_j[::-1]))
-        x_axes = np.concatenate((x_axes_i, x_axes_j[::-1]))
+        y_axes = y_axes_i
+        x_axes = x_axes_i
 
-        print("x:",x_axes)
-        print("y:", y_axes)
+        #y_axes = np.concatenate((y_axes_i, y_axes_j[::-1]))
+        #x_axes = np.concatenate((x_axes_i, x_axes_j[::-1]))
+
+        #print("x:",x_axes)
+        #print("y:", y_axes)
         
         # Plotting
         plt.plot(x_axes, y_axes, color='blue', linewidth=1, label='Efficient frontier')

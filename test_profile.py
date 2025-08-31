@@ -10,17 +10,10 @@ from libDEA.dea_profile import DeaProfile
 
 import numpy as np
 
-def generateXY(m,fX_k,fY_k, fileX, fileY):
-
-    # Ensure the folder exists
-    os.makedirs(os.path.dirname(fileX), exist_ok=True)
-    os.makedirs(os.path.dirname(fileY), exist_ok=True)
+def generateXY(m,fX_k,fY_k):
     
     X = np.random.uniform(0, 10, size=(fX_k, m))
     Y = np.random.uniform(0, 10, size=(fY_k, m))
-    
-    np.save(fileX, X)
-    np.save(fileY, Y)
     
     return X,Y
 

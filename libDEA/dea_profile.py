@@ -99,15 +99,15 @@ class DeaProfile():
         x_axes = np.concatenate((x_axes_i, x_axes_j[::-1]))
         
         # Plotting
-        #plt.plot(x_axes, y_axes)
-        plt.plot(x_axes_i, y_axes_i, label='Slice 1')
-        plt.plot(x_axes_j[::-1], y_axes_j[::-1], label='Slice 2')
+        plt.plot(x_axes, y_axes, color='blue', linewidth=1, label='Efficient frontier'))
+        #plt.plot(x_axes_i, y_axes_i, label='Slice 1')
+        #plt.plot(x_axes_j[::-1], y_axes_j[::-1], label='Slice 2')
 
         min_x_i = np.min(x_axes_i)
         max_x_j = np.max(x_axes_j)
 
         # Draw a line from (min_x_i, max_x_j) to (min_x_i, max_x_j + 1)
-        plt.plot([min_x_i, min_x_i], [max_x_j, max_x_j + 1], color='green', linewidth=2, label='Edge')
+        #plt.plot([min_x_i, min_x_i], [max_x_j, max_x_j + 1], color='green', linewidth=2, label='Edge')
         
         plt.xlabel(f'x{j}')
         plt.ylabel(f'x{i}')

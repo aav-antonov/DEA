@@ -21,7 +21,7 @@ def generateXY(m,fX_k,fY_k):
 m = 250 #number of DMUs
 fX_k = 5 #size of resouce space (inputs of DMU) )
 fY_k = 3 #size of product space (outputs of DMU) )
-X, Y = generateXY(m, fX_k, fY_k, fileX, fileY)
+X, Y = generateXY(m, fX_k, fY_k)
 
 #init class Profile class and set X and Y
 DP = DeaProfile()

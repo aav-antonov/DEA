@@ -98,9 +98,10 @@ class DeaProfile():
         y_axes = y_axes_i
         x_axes = x_axes_i
 
-        #y_axes = np.concatenate((y_axes_i, y_axes_j[::-1]))
-        #x_axes = np.concatenate((x_axes_i, x_axes_j[::-1]))
-
+        #y_axes = np.concatenate(y_axes_i[0] + 2, y_axes_i, y_axes_i[-1]  )
+        #x_axes = np.concatenate(x_axes_i[0]    , x_axes_i, x_axes_i[-1]+2)  
+        y_axes = np.concatenate(([y_axes_i[0] + 2], y_axes_i, [y_axes_i[-1]]))
+        x_axes = np.concatenate(([x_axes_i[0]], x_axes_i, [x_axes_i[-1] + 2]))
         #print("x:",x_axes)
         #print("y:", y_axes)
         

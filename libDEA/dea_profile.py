@@ -99,7 +99,7 @@ class DeaProfile():
         x_axes = np.concatenate((x_axes_i, x_axes_j[::-1]))
         
         # Plotting
-        plt.plot(x_axes, y_axes, color='blue', linewidth=1, label='Efficient frontier'))
+        plt.plot(x_axes, y_axes, color='blue', linewidth=1, label='Efficient frontier')
         #plt.plot(x_axes_i, y_axes_i, label='Slice 1')
         #plt.plot(x_axes_j[::-1], y_axes_j[::-1], label='Slice 2')
 

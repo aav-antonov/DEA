@@ -17,13 +17,14 @@ class DeaProfile():
         self.DEALS = DeaLargeScale()
         
     
-    def get_base(self, X, Y,  q_type ="x", steps = 10, size = 100):
+    def get_base(self, X, Y,  q_type ="x"):
         
-        self.base = self.DEALS.get_base(X, Y, q_type =q_type, steps = steps, size = size)
+        self.DEALS.get_full_base( X, Y, q_type =q_type)
+        self.base = self.DEALS.full_base
         self.X = X
         self.Y = Y
     
-    def get_yx_profile(self, x, y ):
+    def get_yx_profile(self, x, y, file_output = "plot_yx.png" ):
         
         print(x.shape)
         # Create an array with multiples of x from 0.1 to 2.0
@@ -33,8 +34,6 @@ class DeaProfile():
         
         xP = xP.T
         yP = yP.T
-                
-        
         
         self.DEALS.set_DEA(self.X[:, self.base], self.Y[:, self.base], q_type = "x")
         
@@ -61,13 +60,10 @@ class DeaProfile():
         plt.legend()
         plt.grid(True)
         plt.ylim(bottom=0, top=np.max(y_filtered)+0.5)
-        plt.savefig('plot_yx.png')
+        plt.savefig(file_output)
         plt.clf()
-
-
-        
     
-    def get_xx_profile(self, x, y , i,j):
+    def get_xx_profile(self, x, y , i,j , file_output = "plot_xx"):
         
         # Generate a series of arrays with x[1] incremented by k
         k_values = np.arange(0, 10)
@@ -120,7 +116,7 @@ class DeaProfile():
         plt.legend()
         plt.grid(True)
         plt.ylim(bottom=0, top=np.max(y_axes)+0.5)
-        plt.savefig(f'plot_xx_{i}_{j}.png')
+        plt.savefig(f'{file_output}_{i}_{j}.png')
         plt.clf()    
 
 

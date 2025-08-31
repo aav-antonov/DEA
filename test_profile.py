@@ -10,52 +10,27 @@ from libDEA.dea_profile import DeaProfile
 
 import numpy as np
 
-def generate_base_XY(fX_k, fY_k, scale_range, N, bias=0.0):
-    """
-    Generates efficient DMUs based on inputs and outputs directions.
-    - fX_k: number of input features
-    - fY_k: number of output features
-    - scale_range: sequence of scale values, e.g., range(1,11)
-    - N: number of 'directional' DMUs per scale value
-    - bias: add this constant to x_sum and y_sum
-    Returns:
-        X: (fX_k, num_DMUs) input matrix
-        Y: (fY_k, num_DMUs) output matrix
-    """
-    
-    xy_sum =[]
-    for scale_i in scale_range:
-        xy_sum.append([bias + scale_i, np.sqrt(scale_i)])
-        
+def generateXY(m,fX_k,fY_k, fileX, fileY):
 
-        
-    X_list = []
-    Y_list = []
-    for _ in range(N):
-            # Random proportions that sum to 1 (Dirichlet is ideal)
-        alfaX = np.random.dirichlet(np.ones(fX_k))
-        alfaY = np.random.dirichlet(np.ones(fY_k))
-        X_direction, Y_direction = [], []
-        for [x,y] in xy_sum:
-            
-            X_direction.append(x * alfaX) # Shape: (fX_k,)
-            Y_direction.append(y * alfaY)# Shape: (fY_k,)
-            X = np.column_stack(X_direction)
-            Y = np.column_stack(Y_direction)
-            #print(X.shape, Y.shape)
-        X_list.append(X)
-        Y_list.append(Y)
+    # Ensure the folder exists
+    os.makedirs(os.path.dirname(fileX), exist_ok=True)
+    os.makedirs(os.path.dirname(fileY), exist_ok=True)
     
-    X = np.column_stack(X_list)
-    Y = np.column_stack(Y_list)
-    return X, Y
+    X = np.random.uniform(0, 10, size=(fX_k, m))
+    Y = np.random.uniform(0, 10, size=(fY_k, m))
     
-X, Y = generate_base_XY(3, 2, range(1,11), 50, bias=2.0)
+    np.save(fileX, X)
+    np.save(fileY, Y)
+    
+    return X,Y
+
+X, Y = generateXY(m, fX_k, fY_k, fileX, fileY)
 
 DP = DeaProfile()
 DP.get_base(X, Y,  q_type ="x", steps = 10, size = 100)
 
-x, y = X[:,5], Y[:,5]*0.75
+
+x, y = X[:,5], Y[:,5]*0.2
 DP.get_yx_profile( x, y )
 
 DP.get_xx_profile( x, y , 0, 1)

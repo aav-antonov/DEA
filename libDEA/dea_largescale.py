@@ -28,7 +28,7 @@ class DeaLargeScale():
         self.THREAD_N = THREAD_N
         self.DEAM = DeaMultiprocessing(THREAD_N = self.THREAD_N)
 
-    def run(self, X, Y, q_type ="x", intervals=5):
+    def get_full_base(self, X, Y, q_type ="x", intervals=5):
         
         self.X, self.Y = X, Y
         
@@ -44,6 +44,14 @@ class DeaLargeScale():
         
         #Final compute of the base columns by removing non-efficient ones
         self.full_base = self.rebase( base_columns, X, Y, q_type ="x")
+        
+        
+
+    def run(self, X, Y, q_type ="x", intervals=5):
+        
+        self.X, self.Y = X, Y
+        
+        self.get_full_base( X, Y, q_type ="x", intervals=intervals)
         
         #Final compute scores for all columns 
         qX = self.get_scores(self.full_base, X, Y, q_type ="x")

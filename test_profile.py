@@ -43,7 +43,7 @@ DP.get_base(X, Y, q_type="x")
 # Select a DMU to profile
 dmu_index = 5
 print(f"Selecting DMU with index {dmu_index} for profiling and making its outputs inefficient.")
-x, y = X[:, dmu_index], Y[:, dmu_index] * 0.2  # scale output to simulate inefficiency
+x, y = X[:, dmu_index], Y[:, dmu_index] * 0.7  # scale output to simulate inefficiency
 
 # Example of plotting y(x) profile
 print("Generating and saving y(x) profile plot for selected DMU.")

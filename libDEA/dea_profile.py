@@ -97,6 +97,9 @@ class DeaProfile():
        
         y_axes = np.concatenate((y_axes_i, y_axes_j[::-1]))
         x_axes = np.concatenate((x_axes_i, x_axes_j[::-1]))
+
+        print("x:",x_axes)
+        print("y:", y_axes)
         
         # Plotting
         plt.plot(x_axes, y_axes, color='blue', linewidth=1, label='Efficient frontier')

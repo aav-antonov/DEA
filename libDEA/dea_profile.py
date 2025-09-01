@@ -63,63 +63,75 @@ class DeaProfile():
         plt.savefig(file_output)
         plt.clf()
     
-    def get_xx_profile(self, x, y , i,j , file_output = "plot_xx"):
-        
-        # Generate a series of arrays with x[1] incremented by k
-        k_values = np.arange(0, 10)
-        xPi = np.column_stack([x.copy() for _ in k_values])
-        xPi[i, :] += k_values* xPi[i, 0]*0.5
-        
-        xPj = np.column_stack([x.copy() for _ in k_values])
-        xPj[j, :] += k_values* xPi[j, 0]*0.5
+    def get_x_series(self, X_base, i, x, k=100):
+        """
+        Returns a numpy array of shape (k, n_features), each row is a copy of x,
+        with column i set to a grid of values spanning X_base[:,i].
 
-        yP  = np.column_stack([y.copy() for _ in k_values])
+        Parameters:
+            X_base: numpy.ndarray, shape (n_samples, n_features)
+            i: int, the column index to vary
+            x: numpy.ndarray, shape (n_features,)
+            k: int, number of grid points (default 100)
+
+        Returns:
+            x_series: numpy.ndarray, shape (k, n_features)
+        """
+        x_min_i = X_base[:, i].min()
+        x_max_i = X_base[:, i].max()
+        x_range_i = np.linspace(x_min_i, x_max_i, k)
+
+        x_series = np.tile(x, (k, 1))           # k copies of x
+        x_series[:, i] = x_range_i              # set column i
+
+        return x_series
+
+    def get_xx_profile(self, x, y , i, j , file_output = "plot_xx"):
+        
+
+        X_base = self.X[:,self.base] # numpy
+        k = 100
+        x_series_i = self.get_x_series(X_base, i, x, k)
+        x_series_j = self.get_x_series(X_base, j, x, k)
+
+        y_i  = np.column_stack([y.copy() for _ in range(k)])
+        y_j  = np.column_stack([y.copy() for _ in range(k)])
                 
         self.DEALS.set_DEA(self.X[:, self.base], self.Y[:, self.base], q_type = "x")
         
-        qXi = self.DEALS.DEAM.run(xPi, yP , q_type = "x")
+        qXi = self.DEALS.DEAM.run(x_series_i, y_i , q_type = "x")
         qXi = np.array(qXi)
-        qXi[qXi > 1e+10] = 0
+        mask = qXi < 1e+6
         
-        qXj = self.DEALS.DEAM.run(xPj, yP , q_type = "x")
+
+        #qx_series_i = qXi*x_series_i
+        qx_series_i = qXi[:, None] * x_series_i  # Multiply each row by corresponding qXi
+        qx_series_i = qx_series_i[mask, :]
+        
+        qXj = self.DEALS.DEAM.run(x_series_j, y_j , , q_type = "x")
         qXj = np.array(qXj)
-        qXj[qXj > 1e+10] = 0
+        mask = qXj < 1e+6
         
-        qxPi = xPi*qXi
+        qx_series_j = qXj[:, None] * x_series_j  # Multiply each row by corresponding qXi
+        qx_series_j = qx_series_j[mask, :]
         
-        y_axes_i = qxPi[i, :]
-        x_axes_i = qxPi[j, :]
-        
-        qxPj = xPj*qXj
+        # Stack vertically
+        qx_series_stacked = np.vstack([qx_series_i, qx_series_j])
 
-        y_axes_j = qxPj[i, :]
-        x_axes_j = qxPj[j, :]
-       
-        y_axes = y_axes_i
-        x_axes = x_axes_i
+        # Sort by column i
+        sorted_indices = np.argsort(qx_series_stacked[:, i])
+        qx_series_sorted = qx_series_stacked[sorted_indices]
+        x_axes_i = qx_series_sorted[:, i]
+        x_axes_j = qx_series_sorted[:, j]
 
-        #y_axes = np.concatenate(y_axes_i[0] + 2, y_axes_i, y_axes_i[-1]  )
-        #x_axes = np.concatenate(x_axes_i[0]    , x_axes_i, x_axes_i[-1]+2)  
-        y_axes = np.concatenate(([y_axes_i[0] + 2], y_axes_i, [y_axes_i[-1]]))
-        x_axes = np.concatenate(([x_axes_i[0]], x_axes_i, [x_axes_i[-1] + 2]))
-        print("x:",x_axes)
-        print("y:", y_axes)
-        
         # Plotting
-        plt.plot(x_axes, y_axes, color='blue', linewidth=1, label='Efficient frontier')
-        #plt.plot(x_axes_i, y_axes_i, label='Slice 1')
-        #plt.plot(x_axes_j[::-1], y_axes_j[::-1], label='Slice 2')
-
-        min_x_i = np.min(x_axes_i)
-        max_x_j = np.max(x_axes_j)
-
-        # Draw a line from (min_x_i, max_x_j) to (min_x_i, max_x_j + 1)
-        #plt.plot([min_x_i, min_x_i], [max_x_j, max_x_j + 1], color='green', linewidth=2, label='Edge')
+        plt.plot(x_axes_i, x_axes_j, color='blue', linewidth=1, label='Efficient frontier')     
+        
         
         plt.xlabel(f'x{j}')
         plt.ylabel(f'x{i}')
-        plt.scatter(  xPj[j, 0], xPj[i, 0],  color='red', marker='o', label='agent') 
-        plt.title('Slice of Production function')
+        plt.scatter(  x[j], x[i],  color='red', marker='o', label='agent') 
+        plt.title('Slice (x,x) of Efficient frontier (Production function)')
         plt.legend()
         plt.grid(True)
         plt.ylim(bottom=0, top=np.max(y_axes)+0.5)

@@ -108,7 +108,7 @@ class DeaProfile():
         qx_series_i = qXi[:, None] * x_series_i  # Multiply each row by corresponding qXi
         qx_series_i = qx_series_i[mask, :]
         
-        qXj = self.DEALS.DEAM.run(x_series_j, y_j , , q_type = "x")
+        qXj = self.DEALS.DEAM.run(x_series_j, y_j,  q_type = "x")
         qXj = np.array(qXj)
         mask = qXj < 1e+6
         

@@ -104,7 +104,6 @@ class DeaProfile():
         mask = qXi < 1e+6
         
 
-        #qx_series_i = qXi*x_series_i
         qx_series_i = qXi * x_series_i  # Multiply each row by corresponding qXi
         qx_series_i = qx_series_i[mask, :]
         

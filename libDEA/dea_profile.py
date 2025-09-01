@@ -99,6 +99,9 @@ class DeaProfile():
                 
         self.DEALS.set_DEA(self.X[:, self.base], self.Y[:, self.base], q_type = "x")
         
+        print("x_series_i.shape:", x_series_i.shape)
+        print("y_i.shape:", y_i.shape)
+
         qXi = self.DEALS.DEAM.run(x_series_i, y_i , q_type = "x")
         qXi = np.array(qXi)
         mask = qXi < 1e+6

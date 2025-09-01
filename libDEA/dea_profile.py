@@ -105,14 +105,14 @@ class DeaProfile():
         
 
         #qx_series_i = qXi*x_series_i
-        qx_series_i = qXi[:, None] * x_series_i  # Multiply each row by corresponding qXi
+        qx_series_i = qXi * x_series_i  # Multiply each row by corresponding qXi
         qx_series_i = qx_series_i[mask, :]
         
         qXj = self.DEALS.DEAM.run(x_series_j, y_j,  q_type = "x")
         qXj = np.array(qXj)
         mask = qXj < 1e+6
         
-        qx_series_j = qXj[:, None] * x_series_j  # Multiply each row by corresponding qXi
+        qx_series_j = qXj * x_series_j  # Multiply each row by corresponding qXi
         qx_series_j = qx_series_j[mask, :]
         
         # Stack vertically

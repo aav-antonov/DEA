@@ -102,9 +102,11 @@ class DeaProfile():
         qXi = self.DEALS.DEAM.run(x_series_i, y_i , q_type = "x")
         qXi = np.array(qXi)
         mask = qXi < 1e+6
-        
+        print("qXi:", qXi)
+        print("mask:", mask.shape)
 
         qx_series_i = qXi * x_series_i  # Multiply each row by corresponding qXi
+        print("qx_series_i.shape:", qx_series_i.shape)
         qx_series_i = qx_series_i[mask, :]
         
         qXj = self.DEALS.DEAM.run(x_series_j, y_j,  q_type = "x")

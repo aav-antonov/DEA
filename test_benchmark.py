@@ -5,7 +5,7 @@ import timeit
 
 from libDEA.dea_multiprocessing import DeaMultiprocessing
 from libDEA.dea_largescale import DeaLargeScale
-from libDEA.dea_profile import DeaProfile
+
 ##############################################
 
 def generateXY(m,fX_k,fY_k, fileX, fileY):
@@ -36,20 +36,15 @@ def run_dea_largescale(m, fX_k, fY_k):
     Y = np.load(fileY)
 
     execution_time = {}
-    print(f"Running DeaLargeScale with m={m}, fX_k={fX_k}, fY_k={fY_k}")
-
-    
+        
     # Run DeaLargeScale
-    DEALS = DeaLargeScale(THREAD_N=8)
+    DEALS = DeaLargeScale()
     start_time = timeit.default_timer()
-    qX2 = DEALS.run(X, Y, q_type="x", steps=5, size=100)
+    qX2 = DEALS.run(X, Y, q_type="x")
     elapsed_time = timeit.default_timer() - start_time
     execution_time['DeaLargeScale'] = elapsed_time
 
-    print(f"DeaLargeScale elapsed time: {elapsed_time:.4f} seconds")
     qX2 = np.array(qX2)
-
-    
 
     return execution_time
 
@@ -80,7 +75,7 @@ def run_dea_comparison(m, fX_k, fY_k):
     # Run DeaLargeScale
     DEALS = DeaLargeScale()
     start_time = timeit.default_timer()
-    qX2 = DEALS.run(X, Y, q_type="x", steps=5, size=100)
+    qX2 = DEALS.run(X, Y, q_type="x")
     elapsed_time = timeit.default_timer() - start_time
     execution_time['DeaLargeScale'] = elapsed_time
 
@@ -90,16 +85,28 @@ def run_dea_comparison(m, fX_k, fY_k):
     # Compare outputs
     assert np.allclose(qX1, qX2, atol=1e-8), \
         "Results from DeaMultiprocessing and DeaLargeScale do not match!"
-    print("Both methods returned the same results.")
+    print("DeaMultiprocessing and DeaLargeScale returned the same results.")
 
     return execution_time
 
+
+print("""
+This script benchmarks and tests the performance and correctness of two DEA implementations.
+
+DEA (Data Envelopment Analysis) is a method for evaluating the efficiency of decision-making units (DMUs) based on their inputs and outputs.
+
+- DeaMultiprocessing: Base method that computes efficiency for each unit directly using multiprocessing.
+- DeaLargeScale: Optimized version designed for large-scale data and improved performance.
+
+Random datasets of varying sizes are generated, both methods are executed, results are compared for accuracy, and computation time is measured.
+""")
+
 # Example of how to call the function:
 execution_time_all = []
-m = 500
+m = 250
 fX_k = 5
 fY_k = 3
-for k in range(1, 6):
+for k in range(1, 7):
     
     print(f"Running DEA comparison for m={m}, fX_k={fX_k}, fY_k={fY_k}")
     
@@ -109,12 +116,10 @@ for k in range(1, 6):
     else:  # Run the DeaLargeScale
         etime = run_dea_largescale(m=m, fX_k=5, fY_k=3)
         execution_time_all.append([f"m={m}, fX_k={fX_k}, fY_k={fY_k}",etime])
+        print(f"DeaLargeScale elapsed time: {etime:.4f} seconds")
     m *=2
 
 for [setsize, execution_time] in execution_time_all:
     for key, value in execution_time.items():
         print(f"{setsize} {key}: {value:.4f} seconds")
-
-
-    
 

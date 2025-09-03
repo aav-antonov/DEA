@@ -23,19 +23,54 @@ The package uses the linear solver from the [`ortools`](https://developers.googl
 For more details, see my PhD-related paper: [DEA.pdf](DEA.pdf)
 
 
-**Installation**
+## Installation ##
+
 ```
 git clone --branch  main https://github.com/aav-antonov/DEA.git
 cd DEA
 pip install . e
 ```
 
+## Usage ##
 
-**Test**
+Below snippets of code how you can use libDEA explaining also input data:
+
+```
+#imports
+from libDEA.dea_multiprocessing import DeaMultiprocessing
+from libDEA.dea_largescale import DeaLargeScale
+from libDEA.dea_profile import DeaProfile
+
+#input X and Y
+# generate 100 random DMUs with 3 inputs (what DMU is consuming) and 2 ouputs (what DMU is producing): 
+X = np.random.uniform(0, 10, size=(3, 100))
+Y = np.random.uniform(0, 10, size=(2, 100))
+
+
+
+#set up DeaMultiprocessing()
+DEAMP = DeaMultiprocessing()
+DEAMP.set_DEA(X, Y, q_type="x")
+q = DEAMP.run(X, Y, q_type="x")
+
+# q is of size 100 - efficiency (0 <= q <=1) for each DMU (X,Y)
+
+#set up  DeaLargeScale() more computationally efficient , can handle cases with > 10 000 DMUs  
+DEALS = DeaLargeScale()
+q = DEALS.run(X, Y, q_type="x")
+
+
+
+```
+
+
+## Test `DeaLargeScale()` ##
 
 In the `DEA` folder, you can benchmark and test the performance and correctness of the two DEA implementations by running:
 
+```
 python test_benchmark.py
+```
 
 This script benchmarks and tests both accuracy and computational efficiency for:
 
@@ -116,29 +151,48 @@ For each DMU in $B_1$, solve DEA using $X[B_1]$ and $Y[B_1]$ as reference sets, 
 ***Final Compute***  
 For each DMU in the original matrices $X$ and $Y$, solve DEA using the reference sets $X[B_2]$ and $Y[B_2]$. Thus, we still solve $n$ linear programs (one per DMU), but the size of each problem is significantly reduced compared to using the full set.
 
+## Visualizing Multi-Dimensional Efficient Frontier with libDEA ##
 
-##Visualising multi-dimentional Efficient frontier##
+Data Envelopment Analysis (DEA) is a powerful methodology for constructing production functions based on empirical observations of Decision Making Units (DMUs) performance. The **libDEA** library provides specialized tools to visualize the efficient frontier through various projections.
 
-In some sence DEA is a tool to construct production function base on empirical observayion of DMUs perfomance.
-libDEA provides tools to visualize Efficient frontier by slicing it in coordinates (x,y) or (x,x). For the latter one need to specify indexes of inputs.
+### Understanding Efficient Frontier Visualization
+
+The **efficient frontier** represents the optimal performance boundary where DMUs operate at maximum efficiency. Since production processes often involve multiple inputs and outputs, libDEA offers two primary visualization approaches:
+
+* **Output-Input Visualization (y-x profile):** Shows the relationship between a specific output and input.
+* **Input-Input Visualization (x-x profile):** Compares two different inputs while holding outputs constant.
 
 
 
-usage: 
+## Test `DeaProfile()` ##
+
+In the `DEA` folder, you can run test script to see plots produced by `DeaProfile()` class:
+
 ```
-# Initialize DeaProfile class and identify full_base for input matrixes  X and Y 
-print("Initializing DEA profile and setting base X and Y data.")
+python test_profile.py
+```
+
+## Usage: ## 
+
+```
+
+from libDEA.dea_profile import DeaProfile
+
+#input X and Y
+# generate 100 random DMUs with 3 inputs (what DMU is consuming) and 2 ouputs (what DMU is producing): 
+X = np.random.uniform(0, 10, size=(3, 100))
+Y = np.random.uniform(0, 10, size=(2, 100))
+
+#set up DeaProfile() to visualise a given DMU and Efficient frontier (Production function)
 DP = DeaProfile()
 DP.get_base(X, Y, q_type="x")
 
-#specify DMU index which you wanna visualize:
 dmu_index = 1
+print(f"Selecting DMU with index {dmu_index} for profiling")
 
-
-x, y = X[:, dmu_index], Y[:, dmu_index] 
+x, y = X[:, dmu_index], Y[:, dmu_index]   
 
 # Example of plotting y(x) profile
-
 DP.get_yx_profile(x, y, file_output="plots/plot_yx.png")
 
 # Example of plotting x(x) profile for different input pairs
@@ -154,36 +208,3 @@ insert link to figure here (plots/plot_xx_0_1.png)
 insert link to figure here (plots/plot_xx_1_2.png)
 insert link to figure here (plots/plot_xx_0_2.png)
 
-
-** Visualizing Multi-Dimensional Efficient Frontier with libDEA**
-
-Data Envelopment Analysis (DEA) is a powerful methodology for constructing production functions based on empirical observations of Decision Making Units (DMUs) performance. The **libDEA** library provides specialized tools to visualize the efficient frontier through various projections.
-
-### Understanding Efficient Frontier Visualization
-
-The **efficient frontier** represents the optimal performance boundary where DMUs operate at maximum efficiency. Since production processes often involve multiple inputs and outputs, libDEA offers two primary visualization approaches:
-
-* **Output-Input Visualization (y-x profile):** Shows the relationship between a specific output and input.
-* **Input-Input Visualization (x-x profile):** Compares two different inputs while holding outputs constant.
-
----
-
-### Implementation Example
-
-```python
-# Initialize DeaProfile class and identify full_base for input matrices X and Y 
-print("Initializing DEA profile and setting base X and Y data.")
-DP = DeaProfile()
-DP.get_base(X, Y, q_type="x")
-
-# Specify DMU index to visualize
-dmu_index = 1
-x, y = X[:, dmu_index], Y[:, dmu_index] 
-
-# Example of plotting y(x) profile
-DP.get_yx_profile(x, y, file_output="plots/plot_yx.png")
-
-# Examples of plotting x(x) profiles for different input pairs
-DP.get_xx_profile(x, y, 0, 1, file_output="plot_xx")  # Generates plot_xx_0_1.png
-DP.get_xx_profile(x, y, 1, 2, file_output="plot_xx")  # Generates plot_xx_1_2.png
-DP.get_xx_profile(x, y, 0, 2, file_output="plot_xx")  # Generates plot_xx_0_2.png

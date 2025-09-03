@@ -41,7 +41,7 @@ DP = DeaProfile()
 DP.get_base(X, Y, q_type="x")
 
 dmu_index = 1
-print(f"Selecting DMU with index {dmu_index} for profiling and making its outputs inefficient.")
+print(f"Selecting DMU with index {dmu_index} for profiling.")
 
 
 x, y = X[:, dmu_index], Y[:, dmu_index]   # scale output to simulate inefficiency

@@ -1,5 +1,7 @@
 # Data Envelopment Analysis ([DEA](DEA.pdf)) Computational Library 
 
+For more details, see my PhD-related paper: [DEA.pdf](DEA.pdf)
+
 This repository provides a Python library for applying Data Envelopment Analysis (DEA) to real-world data. It includes several classes to compute various tasks related to DEA:
 
 1. **`Dea()`**  
@@ -20,7 +22,7 @@ This repository provides a Python library for applying Data Envelopment Analysis
 
 The package uses the linear solver from the [`ortools`](https://developers.google.com/optimization) library. It is free to use, provided you comply with the terms and conditions of `ortools`.
 
-For more details, see my PhD-related paper: [DEA.pdf](DEA.pdf)
+
 
 
 ## Installation ##

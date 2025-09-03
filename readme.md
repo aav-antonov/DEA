@@ -204,7 +204,11 @@ DP.get_xx_profile(x, y, 0, 2, file_output="plot_xx")  # see plot_xx_0_2.png
 The output plots would lool something like this:
 insert link to figure here (plots/plot_yx.png)
 
-insert link to figure here (plots/plot_xx_0_1.png)
-insert link to figure here (plots/plot_xx_1_2.png)
-insert link to figure here (plots/plot_xx_0_2.png)
+![y(x) profile](plots/plot_yx.png "xy-slice")
+
+
+![x0x1 profile](plots/plot_xx_0_1.png "xx-slice")
+![x1x2 profile](plots/plot_xx_1_2.png "xx-slice")
+![x0x2 profile](plots/plot_xx_0_2.png "xx-slice")
+
 

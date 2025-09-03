@@ -40,14 +40,15 @@ print("Initializing DEA profile and setting base X and Y data.")
 DP = DeaProfile()
 DP.get_base(X, Y, q_type="x")
 
-# Select a DMU to profile
-dmu_index = 5
+dmu_index = 1
 print(f"Selecting DMU with index {dmu_index} for profiling and making its outputs inefficient.")
-x, y = X[:, dmu_index], Y[:, dmu_index] * 0.7  # scale output to simulate inefficiency
+
+
+x, y = X[:, dmu_index], Y[:, dmu_index]   # scale output to simulate inefficiency
 
 # Example of plotting y(x) profile
 print("Generating and saving y(x) profile plot for selected DMU.")
-DP.get_yx_profile(x, y, file_output="plot_yx.png")
+DP.get_yx_profile(x, y, file_output="plots/plot_yx.png")
 
 # Example of plotting x(x) profile for different input pairs
 print("Generating and saving x(x) profile plots for selected DMU with different input indices.")

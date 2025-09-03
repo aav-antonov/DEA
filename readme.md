@@ -90,7 +90,6 @@ where:
 The solution $\theta_o$ is the efficiency of DMU $o$. A DMU is considered efficient if $\theta_o = 1$, and inefficient if $\theta_o < 1$ compared to the rest of the dataset.
 
 
-
 **Complexity of the Problem**
 
 Given input and output matrices $X$ and $Y$, the above linear program must be solved separately for each DMU. The computational time required to solve these problems commonly grows super-quadratically with the number of DMUs ($n$), because both the number of linear programs and the size of each program (determined by the number of DMUs and variables) increase as $n$ increases. Specifically, the size of each individual linear program grows with $n$ (the number of DMUs appears in both constraints and variables), so the total computational time in average case increases faster than $O(n^2)$—often approaching cubic growth for large datasets.
@@ -118,6 +117,73 @@ For each DMU in $B_1$, solve DEA using $X[B_1]$ and $Y[B_1]$ as reference sets, 
 For each DMU in the original matrices $X$ and $Y$, solve DEA using the reference sets $X[B_2]$ and $Y[B_2]$. Thus, we still solve $n$ linear programs (one per DMU), but the size of each problem is significantly reduced compared to using the full set.
 
 
+##Visualising multi-dimentional Efficient frontier##
+
+In some sence DEA is a tool to construct production function base on empirical observayion of DMUs perfomance.
+libDEA provides tools to visualize Efficient frontier by slicing it in coordinates (x,y) or (x,x). For the latter one need to specify indexes of inputs.
 
 
 
+usage: 
+```
+# Initialize DeaProfile class and identify full_base for input matrixes  X and Y 
+print("Initializing DEA profile and setting base X and Y data.")
+DP = DeaProfile()
+DP.get_base(X, Y, q_type="x")
+
+#specify DMU index which you wanna visualize:
+dmu_index = 1
+
+
+x, y = X[:, dmu_index], Y[:, dmu_index] 
+
+# Example of plotting y(x) profile
+
+DP.get_yx_profile(x, y, file_output="plots/plot_yx.png")
+
+# Example of plotting x(x) profile for different input pairs
+DP.get_xx_profile(x, y, 0, 1, file_output="plot_xx")  # see plot_xx_0_1.png
+DP.get_xx_profile(x, y, 1, 2, file_output="plot_xx")  # see plot_xx_1_2.png
+DP.get_xx_profile(x, y, 0, 2, file_output="plot_xx")  # see plot_xx_0_2.png
+```
+
+The output plots would lool something like this:
+insert link to figure here (plots/plot_yx.png)
+
+insert link to figure here (plots/plot_xx_0_1.png)
+insert link to figure here (plots/plot_xx_1_2.png)
+insert link to figure here (plots/plot_xx_0_2.png)
+
+
+** Visualizing Multi-Dimensional Efficient Frontier with libDEA**
+
+Data Envelopment Analysis (DEA) is a powerful methodology for constructing production functions based on empirical observations of Decision Making Units (DMUs) performance. The **libDEA** library provides specialized tools to visualize the efficient frontier through various projections.
+
+### Understanding Efficient Frontier Visualization
+
+The **efficient frontier** represents the optimal performance boundary where DMUs operate at maximum efficiency. Since production processes often involve multiple inputs and outputs, libDEA offers two primary visualization approaches:
+
+* **Output-Input Visualization (y-x profile):** Shows the relationship between a specific output and input.
+* **Input-Input Visualization (x-x profile):** Compares two different inputs while holding outputs constant.
+
+---
+
+### Implementation Example
+
+```python
+# Initialize DeaProfile class and identify full_base for input matrices X and Y 
+print("Initializing DEA profile and setting base X and Y data.")
+DP = DeaProfile()
+DP.get_base(X, Y, q_type="x")
+
+# Specify DMU index to visualize
+dmu_index = 1
+x, y = X[:, dmu_index], Y[:, dmu_index] 
+
+# Example of plotting y(x) profile
+DP.get_yx_profile(x, y, file_output="plots/plot_yx.png")
+
+# Examples of plotting x(x) profiles for different input pairs
+DP.get_xx_profile(x, y, 0, 1, file_output="plot_xx")  # Generates plot_xx_0_1.png
+DP.get_xx_profile(x, y, 1, 2, file_output="plot_xx")  # Generates plot_xx_1_2.png
+DP.get_xx_profile(x, y, 0, 2, file_output="plot_xx")  # Generates plot_xx_0_2.png

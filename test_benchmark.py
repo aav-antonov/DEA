@@ -44,10 +44,7 @@ def run_dea_largescale(m, fX_k, fY_k):
     elapsed_time = timeit.default_timer() - start_time
     execution_time['DeaLargeScale'] = elapsed_time
 
-    
     qX2 = np.array(qX2)
-
-    
 
     return execution_time
 

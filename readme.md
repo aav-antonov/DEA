@@ -155,7 +155,7 @@ For each DMU in the original matrices $X$ and $Y$, solve DEA using the reference
 
 Data Envelopment Analysis (DEA) is a powerful methodology for constructing production functions based on empirical observations of Decision Making Units (DMUs) performance. The **libDEA** library provides specialized tools to visualize the efficient frontier through various projections.
 
-### Understanding Efficient Frontier Visualization
+### Understanding Efficient Frontier Visualization ###
 
 The **efficient frontier** represents the optimal performance boundary where DMUs operate at maximum efficiency. Since production processes often involve multiple inputs and outputs, libDEA offers two primary visualization approaches:
 
@@ -202,11 +202,11 @@ DP.get_xx_profile(x, y, 0, 2, file_output="plot_xx")  # see plot_xx_0_2.png
 ```
 
 The output plots would lool something like this:
-insert link to figure here (plots/plot_yx.png)
 
+### y(x) plots ###
 ![y(x) profile](plots/plot_yx.png "xy-slice")
 
-
+### xx plots ###
 ![x0x1 profile](plots/plot_xx_0_1.png "xx-slice")
 ![x1x2 profile](plots/plot_xx_1_2.png "xx-slice")
 ![x0x2 profile](plots/plot_xx_0_2.png "xx-slice")
